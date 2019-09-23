@@ -4,11 +4,20 @@
 //
 
 export class Luhn {
-  constructor() {
-    throw new Error("Remove this statement and implement this function");
+  constructor(str) {
+    this.value = str.replace(/\s/g, '');
   }
 
-  get valid() {
-    throw new Error("Remove this statement and implement this function");
+  get valid () {
+    const regex = RegExp(/\D/g);
+    if (this.value.length <= 1 || regex.test(this.value)) return false;
+    const total = this.value.split('').reverse().map(num => parseInt(num)).reduce((acc, currVal, index) => {
+      let value = currVal;
+      if (index % 2 === 1) {
+        value = currVal * 2 > 9 ? currVal * 2 - 9 : currVal * 2;
+      }
+      return acc + value;
+    }, 0)
+    return total % 10 === 0;
   }
 }
